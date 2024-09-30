@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  user-microservice:
+    build: .
+    ports:
+      - "3035:3035"  # Change this to match your PORT environment variable
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - PORT=${PORT}
+      - ENV=${ENV}
+      - JWT_SECRET=${JWT_SECRET}
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
