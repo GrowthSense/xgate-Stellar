@@ -8,10 +8,10 @@ async function bootstrap() {
 
   app.enableCors();
   const config=new DocumentBuilder()
-  .setTitle('Stellar Test')
-  .setDescription('User service api')
+  .setTitle('Xgate Pay')
+  .setDescription('Xgate pay api')
   .setVersion('1.0')
-  .addTag('Microservice')
+  .addTag('xGate')
   .addBearerAuth(
     {
       type:'http',

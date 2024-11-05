@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { JwtModule } from '@nestjs/jwt'; 
+import { AuthModule } from './auth/auth.module';
+import { AssetModule } from './asset/asset.module';
+import { TransactionModule } from './transaction/transaction.module';
+import { WalletModule } from './wallet/wallet.module';
 
 
 @Module({
@@ -39,7 +42,12 @@ import { JwtModule } from '@nestjs/jwt';
         signOptions: { expiresIn: '1h' }, // Adjust expiration time as needed
       }),
     }),
-    UserModule,
+    AuthModule,
+    AssetModule,
+    TransactionModule,
+    WalletModule,
+    
   ],
+  providers: [],
 })
 export class AppModule {}

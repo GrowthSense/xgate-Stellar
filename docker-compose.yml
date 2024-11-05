@@ -6,7 +6,7 @@ services:
     ports:
       - "3035:3035"  # Change this to match your PORT environment variable
     environment:
-      - DB_HOST=${DB_HOST}
+      - DB_HOST=db  # Change this to match the service name
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
@@ -16,6 +16,20 @@ services:
       - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
       - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
       - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}
+      
+    networks:
+      - app-network
+    depends_on:
+      - db  # Ensure the database service starts before this service
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"  # Expose the database port
     networks:
       - app-network
 
