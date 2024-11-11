@@ -1,0 +1,11 @@
+version: 1
+platform_server:
+  port: 8085
+assets:
+  type: file
+  value: config/dev.assets.yaml
+data:
+  type: postgres
+  server: db
+  database: platform
+  flyway_enabled: true

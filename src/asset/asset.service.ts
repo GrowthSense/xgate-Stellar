@@ -39,7 +39,7 @@ export class AssetService {
     }
 
     const recipientAccount = await this.server.loadAccount(recipientPublicKey);
-    const issuerSecret = 'SAV3HHGMB3HDNCPOL3VZMADHLHBYHRMAILNP2BWGDCFMHGQGNZILWC3C'
+    const issuerSecret = 'SDWHSSNOCPKF2W6HVRNO7L26FYP44EYY3EUIB7EB3V5ZL7TBKNQY6LIW'
     const issuerKeypair = Keypair.fromSecret(issuerSecret);
 
     const asset = new Asset(assetCode, issuerKeypair.publicKey());
@@ -73,7 +73,7 @@ export class AssetService {
 
     }
 
-    const issuerSecret = 'SAV3HHGMB3HDNCPOL3VZMADHLHBYHRMAILNP2BWGDCFMHGQGNZILWC3C'
+    const issuerSecret = 'SDWHSSNOCPKF2W6HVRNO7L26FYP44EYY3EUIB7EB3V5ZL7TBKNQY6LIW'
     const issuerKeypair = Keypair.fromSecret(issuerSecret);
 
     const issuerAccount = await this.server.loadAccount(issuerKeypair.publicKey());

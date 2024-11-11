@@ -17,7 +17,7 @@ export class AuthService {
   async signUp(signUpDto: SignUpDto) {
     const { email, firstname, lastname, phonenumber, password } = signUpDto;
     const userExist=await this.userRepository.findOne({where:{email}});
-    if(userExist)throw new BadRequestException('User withis email already exist');
+    if(userExist)throw new BadRequestException('User with this email already exist');
 
     const pair=Keypair.random();
     const publicKey=pair.publicKey()

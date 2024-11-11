@@ -67,4 +67,23 @@ export class TransactionService {
       throw new BadRequestException(`Error sending payment: ${error.message}`);
     }
   }
+
+
+  // async intiateDeposit(assetCode:string, account:string){
+
+  //   try {
+
+  //   const server = new StellarSdk.Horizon.Server(
+  //     "https://horizon-testnet.stellar.org",
+      
+  //   );
+  //     await server.loadAccount(account);
+  //     const assetIssuer="";
+  //     const asset=new Asset(assetCode,assetIssuer);
+  //   }
+  //   catch(error){
+  //     console.log(error)
+  //   }
+  // }
+
 }

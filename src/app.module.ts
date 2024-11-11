@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { AssetModule } from './asset/asset.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { WalletModule } from './wallet/wallet.module';
+import { TradeModule } from './trade/trade.module';
 
 
 @Module({
@@ -46,6 +47,7 @@ import { WalletModule } from './wallet/wallet.module';
     AssetModule,
     TransactionModule,
     WalletModule,
+    TradeModule,
     
   ],
   providers: [],

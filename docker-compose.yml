@@ -1,38 +1,33 @@
-version: '3.8'
-
+# docker-compose.yml
+version: "3.8"
 services:
-  user-microservice:
-    build: .
+  sep-server:
+    image: stellar/anchor-platform:2.11.0
+    command: --sep-server
+    env_file:
+      - ./dev.env
+    volumes:
+      - ./config:/home
     ports:
-      - "3035:3035"  # Change this to match your PORT environment variable
-    environment:
-      - DB_HOST=db  # Change this to match the service name
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - PORT=${PORT}
-      - ENV=${ENV}
-      - JWT_SECRET=${JWT_SECRET}
-      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
-      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
-      - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}
-      
-    networks:
-      - app-network
+      - "8080:8080"
     depends_on:
-      - db  # Ensure the database service starts before this service
-
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      - db
+  platform-server:
+    image: stellar/anchor-platform:2.11.0
+    command: --platform-server
+    env_file:
+      - ./dev.env
+    volumes:
+      - ./config:/home
     ports:
-      - "5432:5432"  # Expose the database port
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
+      - "8085:8085"
+    depends_on:
+      - db
+  db:
+    image: postgres:14
+    ports:
+      - "5433:5432"
+    env_file:
+      - ./dev.env
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
