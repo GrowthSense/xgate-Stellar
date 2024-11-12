@@ -22,12 +22,12 @@ export class AuthService {
     const pair=Keypair.random();
     const publicKey=pair.publicKey()
     const secretKey=pair.secret()
-    console.log("Secret Key",secretKey)
+    // console.log("Secret Key",secretKey)
 
-    const hashedSecretKey = await argon2.hash(secretKey);
+    // const hashedSecretKey = await argon2.hash(secretKey);
 
     const user=this.userRepository.create({
-      email,firstname,lastname,phonenumber,publicKey,secretKey:hashedSecretKey,password
+      email,firstname,lastname,phonenumber,publicKey,secretKey,password
     });
     return await this.userRepository.save(user)
 
