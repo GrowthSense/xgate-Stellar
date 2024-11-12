@@ -16,4 +16,5 @@ export class WalletController {
   getBalance(@Param('publicKey') publicKey: string) {
     return this.walletService.getBalance(publicKey);
   }
+  
 }

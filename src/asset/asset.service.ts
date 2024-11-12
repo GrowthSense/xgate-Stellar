@@ -19,8 +19,8 @@ export class AssetService {
     //const stellarNetwork = this.configService.get<string>('STELLAR_NETWORK') === 'TESTNEST'? Networks.PUBLIC: Networks.TESTNET;
 
     this.server = new Horizon.Server('https://horizon-testnet.stellar.org');
-
-
+    const issuerSecret = this.configService.get<string>('STELLAR_ISSUER_SECRET');
+    this.issuerKeypair = Keypair.fromSecret(issuerSecret);
   }
 
   async createTrustline(assetCode: string, recipientPublicKey: string, recipientSecretKey: string): Promise<AssetEntity> {
@@ -39,10 +39,11 @@ export class AssetService {
     }
 
     const recipientAccount = await this.server.loadAccount(recipientPublicKey);
-    const issuerSecret = 'SDWHSSNOCPKF2W6HVRNO7L26FYP44EYY3EUIB7EB3V5ZL7TBKNQY6LIW'
-    const issuerKeypair = Keypair.fromSecret(issuerSecret);
+    //  const issuerSecret = 'SDWHSSNOCPKF2W6HVRNO7L26FYP44EYY3EUIB7EB3V5ZL7TBKNQY6LIW'
+    // const issuerKeypair = Keypair.fromSecret(issuerSecret);
 
-    const asset = new Asset(assetCode, issuerKeypair.publicKey());
+    const asset = new Asset(assetCode, this.issuerKeypair.publicKey());
+   // const asset=new Asset(assetCode)
 
     const transaction = new TransactionBuilder(recipientAccount, {
       fee: BASE_FEE,
@@ -58,7 +59,7 @@ export class AssetService {
     const assetRecord = this.assetRepo.create({
       user: recipientUser,
       assetCode: assetCode,
-      issuer:issuerKeypair.publicKey()
+      issuer:this.issuerKeypair.publicKey()
     })
 
     return await this.assetRepo.save(assetRecord)
@@ -73,11 +74,11 @@ export class AssetService {
 
     }
 
-    const issuerSecret = 'SDWHSSNOCPKF2W6HVRNO7L26FYP44EYY3EUIB7EB3V5ZL7TBKNQY6LIW'
-    const issuerKeypair = Keypair.fromSecret(issuerSecret);
+  //  const issuerSecret = 'SCZ5UDK4ZIMSFZPJ5FKEA7LSIGN6V4DUHV4OPFMG5JP6G2VJGC5M5TMQ'
+  //   const issuerKeypair = Keypair.fromSecret(issuerSecret)
 
-    const issuerAccount = await this.server.loadAccount(issuerKeypair.publicKey());
-    const asset = new Asset(assetCode, issuerKeypair.publicKey());
+    const issuerAccount = await this.server.loadAccount(this.issuerKeypair.publicKey());
+    const asset = new Asset(assetCode, this.issuerKeypair.publicKey());
 
     const transaction = new TransactionBuilder(issuerAccount, {
       fee: BASE_FEE,
@@ -91,14 +92,14 @@ export class AssetService {
       .setTimeout(5000)
       .build();
 
-    transaction.sign(issuerKeypair);
+    transaction.sign(this.issuerKeypair);
     const result = await this.server.submitTransaction(transaction);
     const transactionRecord = this.transctionRepo.create({
       recipient: recipientUser,
       assetCode: assetCode,
       amount,
       transactionHash: result.hash,
-      issuer:issuerKeypair.publicKey()
+      issuer:this.issuerKeypair.publicKey()
     })
 
     return await this.transctionRepo.save(transactionRecord)

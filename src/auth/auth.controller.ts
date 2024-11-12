@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, NotFoundException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -20,5 +20,13 @@ export class AuthController {
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
-  
+
+  @Get('wallet/:publicKey')
+  async getUserWalletByPublicKey(@Param('publicKey') publicKey: string) {
+    const userWallet = await this.authService.findUserWalletBy(publicKey);
+    if (!userWallet) {
+      throw new NotFoundException('User wallet not found');
+    }
+    return userWallet;
+  }
 }

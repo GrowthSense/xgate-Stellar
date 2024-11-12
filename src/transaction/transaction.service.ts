@@ -10,12 +10,10 @@ const fetch = require('node-fetch')
 @Injectable()
 export class TransactionService {
 
-  constructor(@InjectRepository(TransactionRepository) private transactionRepo: TransactionRepository) { }
-
-
+  constructor(@InjectRepository(TransactionRepository) private transactionRepo: TransactionRepository) {}
 
   async sendPayment(destinationPublicKey: string, amount: string, assetCode:string) {
-   // const secret = 'SD3EKFNGV44N5TZV746RHTPRJKMFR57NEX7KETYZ4RCYBM7F3YOUAWUG';
+
     const secret='SB7COVHVX4VCGULLN66GTDNSIRHUGH5MVEL5NK56BXUW355BMHPEY4ZL';
     const sourcePair = Keypair.fromSecret(secret);
 

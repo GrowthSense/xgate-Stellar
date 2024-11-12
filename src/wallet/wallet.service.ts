@@ -1,11 +1,12 @@
 
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import StellarSdk,{ Keypair } from '@stellar/stellar-sdk';
 
 
 @Injectable()
 export class WalletService {
-  constructor() { }
+  constructor() {}
 
 
   async fundWallet(publicKey:string){
@@ -16,8 +17,8 @@ export class WalletService {
     } catch (error) {
       throw new BadRequestException('Unable to fund the wallet')
     }
-
   }
+  
   async getBalance(publicKey: string) {
     try {
       const server = new StellarSdk.Horizon.Server('https://horizon-testnet.stellar.org');
@@ -32,5 +33,9 @@ export class WalletService {
       throw new Error('Failed to fetch balance')
     }
   }
+
+  // async findUserWalletBy(publicKey:string){
+  //   return this.walletRepo.findOne({where:{publicKey}})
+  // }
 
 }

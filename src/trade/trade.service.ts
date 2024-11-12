@@ -22,8 +22,8 @@ export class TradeService {
     amount: string,
     price: string
   ) {
-    const issuingKeypair = Keypair.fromSecret("SAV3HHGMB3HDNCPOL3VZMADHLHBYHRMAILNP2BWGDCFMHGQGNZILWC3C");
-    const traderKeypair = Keypair.fromSecret("SC2TSSTKURAWUDVGRPKKXLLCE4NUQFWQJ3GTAMQE7IFCCKW6VNB2GSZR");
+    const issuingKeypair = Keypair.fromSecret("SAUNM2GRWZNVVN7LXNXCJJJ4HNLSVHPRVS4SNF3TBKWU2TTREFMLYQ2O");
+    const traderKeypair = Keypair.fromSecret("SCZ5UDK4ZIMSFZPJ5FKEA7LSIGN6V4DUHV4OPFMG5JP6G2VJGC5M5TMQ");
 
     // Define assets
     const sellingAsset = sellingAssetCode === 'native'
@@ -31,7 +31,7 @@ export class TradeService {
       : new Asset(sellingAssetCode, issuingKeypair.publicKey());
     const buyingAsset = buyingAssetCode === 'native'
       ? Asset.native()
-      : new Asset(buyingAssetCode, issuingKeypair.publicKey());
+      : new Asset(buyingAssetCode, traderKeypair.publicKey());
 
     this.logger.log(`Selling Asset: Code - ${sellingAsset.getCode()}, Issuer - ${sellingAsset.getIssuer()}`);
     this.logger.log(`Buying Asset: Code - ${buyingAsset.getCode()}, Issuer - ${buyingAsset.getIssuer()}`);
@@ -51,7 +51,7 @@ export class TradeService {
           amount: amount,
           price: price,
         }))
-        .setTimeout(100)
+        .setTimeout(30)
         .build();
 
       // Sign transaction with the trader's keypair
@@ -72,4 +72,22 @@ export class TradeService {
       throw error;
     }
   }
+
+  async getOrderBook(sellingAssetCode: string, issuingAccountSecret: string) {
+    const issuingKeypair = Keypair.fromSecret(issuingAccountSecret);
+    const sellingAsset = new Asset(sellingAssetCode, issuingKeypair.publicKey());
+    const buyingAsset = Asset.native();
+
+    try {
+      const orderbook = await this.server.orderbook(sellingAsset, buyingAsset).call();
+      return {
+        bids: orderbook.bids,
+        asks: orderbook.asks,
+      };
+    } catch (error) {
+      this.logger.error('Error fetching order book', error);
+      throw error;
+    }
+  }
+
 }
