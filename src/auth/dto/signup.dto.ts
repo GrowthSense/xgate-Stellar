@@ -26,5 +26,15 @@ export class SignUpDto {
     @IsNotEmpty()
     @IsString()
     @ApiProperty()
+    zipcode: string
+
+    @IsNotEmpty()
+    @IsString()
+    @ApiProperty()
+    cashtag: string
+
+    @IsNotEmpty()
+    @IsString()
+    @ApiProperty()
     password: string
 }

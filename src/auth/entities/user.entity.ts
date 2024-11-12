@@ -19,6 +19,12 @@ export class User {
   @Column({nullable:true})
   phonenumber:string
 
+  @Column({nullable:true})
+  zipcode:string
+
+  @Column({nullable:true})
+  cashtag:string
+
   @Column()
   publicKey:string
 

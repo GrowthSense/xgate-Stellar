@@ -107,6 +107,8 @@ export class AuthService {
     return this.userRepository.findOne({where:{id}})
   }
 
-
+  async findUserWalletBy(publicKey:string){
+    return this.userRepository.findOne({where:{publicKey}})
+  }
 
 }
