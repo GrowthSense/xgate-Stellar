@@ -31,12 +31,12 @@ export class AssetService {
 
     }
 
-    const hashedSecretKey = recipientUser.secretKey;
+    // const hashedSecretKey = recipientUser.secretKey;
 
-    const isValidSecret = await argon2.verify(hashedSecretKey, recipientSecretKey);
-    if (!isValidSecret) {
-        throw new BadRequestException('Invalid secret key provided');
-    }
+    // const isValidSecret = await argon2.verify(hashedSecretKey, recipientSecretKey);
+    // if (!isValidSecret) {
+    //     throw new BadRequestException('Invalid secret key provided');
+    // }
 
     const recipientAccount = await this.server.loadAccount(recipientPublicKey);
     //  const issuerSecret = 'SDWHSSNOCPKF2W6HVRNO7L26FYP44EYY3EUIB7EB3V5ZL7TBKNQY6LIW'
